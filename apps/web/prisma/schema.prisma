@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Message {
+  id                String   @id @default(cuid())
+  direction         String
+  kind              String
+  phone             String
+  body              String
+  status            String
+  provider          String
+  providerMessageId String?
+  error             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([phone])
+  @@index([providerMessageId])
+  @@index([createdAt])
+}

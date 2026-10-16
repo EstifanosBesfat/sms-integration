@@ -1,0 +1,8 @@
+# SMS Integration
+
+- SMS sending lives in `packages/sms`. Never call a carrier API from React components.
+- Add a new carrier by implementing `SmsProvider` in `packages/sms/src/providers` and registering it in `createSmsProvider`. Do not rewrite existing providers unless asked to replace them.
+- Persist one Message row per recipient before send. Extend send/webhook helpers; do not delete them.
+- Ethiopian mobiles normalize to E.164 (`+2519XXXXXXXX`).
+- Use Tailwind CSS v4 (`@import "tailwindcss"`).
+- App UI and API routes live in `apps/web`. The copyable kit is `packages/sms`.
