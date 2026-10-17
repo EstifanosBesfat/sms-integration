@@ -170,6 +170,15 @@ export function SmsWorkbench() {
         </p>
       ) : null}
 
+      {provider === "afromessage" ? (
+        <p className="mb-6 rounded-2xl border border-dashed border-[var(--line)] bg-[var(--card)] px-4 py-3 text-sm text-[var(--muted)]">
+          AfroMessage beta only delivers to numbers you verify in their dashboard.
+          Add <strong className="text-[var(--ink)]">your own phone</strong> under
+          Contacts, click <strong className="text-[var(--ink)]">Verify</strong>, then
+          paste that same number here. The example number will be rejected.
+        </p>
+      ) : null}
+
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
         <section className="rounded-[28px] border border-[var(--line)] bg-[var(--card)] p-5 shadow-[0_20px_50px_-32px_rgba(28,25,20,0.45)] md:p-7">
           <div className="mb-5 flex gap-2">
@@ -193,23 +202,25 @@ export function SmsWorkbench() {
           <textarea
             value={phonesInput}
             onChange={(event) => setPhonesInput(event.target.value)}
-            placeholder={"0911 234 567\n+251911234567"}
+            placeholder={"09XXXXXXXX\n+2519XXXXXXXX"}
             className="mt-2 min-h-28 w-full resize-y rounded-2xl border border-[var(--line)] bg-white px-4 py-3 text-sm outline-none ring-[var(--accent)] focus:ring-2"
           />
           <div className="mt-2 flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={() =>
-                setPhonesInput((current) =>
-                  current.includes(EXAMPLE_PHONE)
-                    ? current
-                    : [current.trim(), EXAMPLE_PHONE].filter(Boolean).join("\n"),
-                )
-              }
-              className="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)]"
-            >
-              Add example {EXAMPLE_PHONE}
-            </button>
+            {provider === "mock" ? (
+              <button
+                type="button"
+                onClick={() =>
+                  setPhonesInput((current) =>
+                    current.includes(EXAMPLE_PHONE)
+                      ? current
+                      : [current.trim(), EXAMPLE_PHONE].filter(Boolean).join("\n"),
+                  )
+                }
+                className="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)]"
+              >
+                Add example {EXAMPLE_PHONE}
+              </button>
+            ) : null}
             {parsed.valid.map((phone) => (
               <span
                 key={phone}

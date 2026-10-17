@@ -71,8 +71,13 @@ export class AfroMessageProvider implements SmsProvider {
 
     const data = (await response.json().catch(() => ({}))) as AfroSendResponse;
     if (!response.ok || data.acknowledge !== "success") {
+      const listed = data.response?.errors;
+      const firstError = Array.isArray(listed)
+        ? listed.find((item): item is string => typeof item === "string")
+        : undefined;
       throw new SmsError(
-        `AfroMessage rejected the send (${response.status}): ${JSON.stringify(data)}`,
+        firstError ??
+          `AfroMessage rejected the send (${response.status}): ${JSON.stringify(data)}`,
       );
     }
 
